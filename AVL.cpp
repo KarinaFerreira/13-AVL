@@ -147,7 +147,7 @@ int fatorBalanceamento(NO* no)
 }
 
 
-int max(int a, int b)
+int max(int a, int b) // Calcula a altura do nó
 {
 	if (a > b) {
 		return a;
@@ -206,14 +206,34 @@ NO* insereArvore(NO* no, int valor)
 
 NO* girarDireita(NO* no)
 {
-	// sua implementação vai aqui
-	return no;
+	if (no == nullptr || no->esq == nullptr) {
+		return no;
+	}
+
+	NO* aux = no->esq;
+	no->esq = aux->dir;
+	aux->dir = no;
+
+	no->altura = max(alturaNo(no->esq), alturaNo(no->dir)) + 1;
+	aux->altura = max(alturaNo(aux->esq), no->altura) + 1;
+
+	return aux;
 }
 
 NO* girarEsquerda(NO* no)
 {
-	// sua implementação vai aqui
-	return no;
+	if (no == nullptr || no->dir == nullptr) {
+		return no;
+	}
+
+	NO* aux = no->dir;
+	no->dir = aux->esq;
+	aux->esq = no;
+
+	no->altura = max(alturaNo(no->esq), alturaNo(no->dir)) + 1;
+	aux->altura = max(alturaNo(aux->dir), no->altura) + 1;
+
+	return aux;
 }
 
 int elementosArvore(NO* no)
@@ -295,11 +315,3 @@ NO* buscarElementoArvoreComPai(NO* no, int valor, NO*& pai)
 	}
 	return NULL;
 }
-
-
-
-
-
-
-
-
